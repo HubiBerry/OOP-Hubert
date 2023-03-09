@@ -11,10 +11,10 @@ public enum ShuffleType
 public class Card
 {
     public string Suit { get; set; }
-    public string Rank { get; set; }
+    public string Sign { get; set; }
     public string Name
     {
-        get { return Rank + " of " + Suit; }
+        get { return Sign + " of " + Suit; }
     }
 }
 
@@ -26,13 +26,13 @@ public class Pack
     public Pack()
     {
         cards = new List<Card>();
-        string[] suits = new string[] { "Hearts", "Diamonds", "Clubs", "Spades" };
-        string[] ranks = new string[] { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" };
+        string[] suits = new string[] { "Diamond", "Hearts", "Clubs", "Spades" };
+        string[] Signs = new string[] { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" };
         foreach (string suit in suits)
         {
-            foreach (string rank in ranks)
+            foreach (string Sign in Signs)
             {
-                Card card = new Card { Suit = suit, Rank = rank };
+                Card card = new Card { Suit = suit, Sign = Sign };
                 cards.Add(card);
             }
         }
@@ -53,7 +53,7 @@ public class Pack
                 }
                 return true;
             case ShuffleType.Riffle:
-                // Implement riffle shuffle algorithm here
+                // Implementing type of the shuffle
                 return true;
             case ShuffleType.NoShuffle:
                 return true;
@@ -62,7 +62,7 @@ public class Pack
         }
     }
 
-    public Card DealOneCard()
+    public Card DealCard()
     {
         if (currentCardIndex >= cards.Count)
         {
@@ -81,7 +81,7 @@ public class Pack
         List<Card> dealtCards = new List<Card>();
         for (int i = 0; i < numCards; i++)
         {
-            Card card = DealOneCard();
+            Card card = DealCard();
             if (card == null)
             {
                 break;
@@ -94,7 +94,7 @@ public class Pack
         return dealtCards;
     }
 }
-
+//Types of shuffling
 public class Program
 {
     public static void Main()
@@ -110,21 +110,22 @@ public class Program
         {
             pack.Shuffle(ShuffleType.Riffle);
         }
+        
         else if (shuffleType == 3)
         {
             pack.Shuffle(ShuffleType.NoShuffle);
         }
 
-        Console.WriteLine("Enter the number of cards to deal:");
+        Console.WriteLine("How many cards to deal?:");
         int numCards = int.Parse(Console.ReadLine());
         List<Card> dealtCards = pack.DealCards(numCards);
         if (dealtCards.Count == 0)
         {
-            Console.WriteLine("No cards left in the pack.");
+            Console.WriteLine("There are no cards left in the pack.");
         }
         else
         {
-            Console.WriteLine("Dealt cards:");
+            Console.WriteLine("Number of dealt cards:");
             foreach (Card card in dealtCards)
             {
                 Console.WriteLine(card.Name);
