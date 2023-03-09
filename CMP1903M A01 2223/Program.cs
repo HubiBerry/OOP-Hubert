@@ -1,0 +1,134 @@
+﻿using System;
+using System.Collections.Generic;
+
+public enum ShuffleType
+{
+    FisherYates,
+    Riffle,
+    NoShuffle
+}
+
+public class Card
+{
+    public string Suit { get; set; }
+    public string Rank { get; set; }
+    public string Name
+    {
+        get { return Rank + " of " + Suit; }
+    }
+}
+
+public class Pack
+{
+    private List<Card> cards;
+    private int currentCardIndex;
+
+    public Pack()
+    {
+        cards = new List<Card>();
+        string[] suits = new string[] { "Hearts", "Diamonds", "Clubs", "Spades" };
+        string[] ranks = new string[] { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" };
+        foreach (string suit in suits)
+        {
+            foreach (string rank in ranks)
+            {
+                Card card = new Card { Suit = suit, Rank = rank };
+                cards.Add(card);
+            }
+        }
+        currentCardIndex = 0;
+    }
+
+    public bool Shuffle(ShuffleType type)
+    {
+        switch (type)
+        {
+            case ShuffleType.FisherYates:
+                for (int i = cards.Count - 1; i >= 1; i--)
+                {
+                    int j = new Random().Next(i + 1);
+                    Card temp = cards[j];
+                    cards[j] = cards[i];
+                    cards[i] = temp;
+                }
+                return true;
+            case ShuffleType.Riffle:
+                // Implement riffle shuffle algorithm here
+                return true;
+            case ShuffleType.NoShuffle:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public Card DealOneCard()
+    {
+        if (currentCardIndex >= cards.Count)
+        {
+            return null;
+        }
+        else
+        {
+            Card card = cards[currentCardIndex];
+            currentCardIndex++;
+            return card;
+        }
+    }
+
+    public List<Card> DealCards(int numCards)
+    {
+        List<Card> dealtCards = new List<Card>();
+        for (int i = 0; i < numCards; i++)
+        {
+            Card card = DealOneCard();
+            if (card == null)
+            {
+                break;
+            }
+            else
+            {
+                dealtCards.Add(card);
+            }
+        }
+        return dealtCards;
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Pack pack = new Pack();
+        Console.WriteLine("Enter shuffle type: 1 for Fisher-Yates Shuffle, 2 for Riffle Shuffle, 3 for No Shuffle");
+        int shuffleType = int.Parse(Console.ReadLine());
+        if (shuffleType == 1)
+        {
+            pack.Shuffle(ShuffleType.FisherYates);
+        }
+        else if (shuffleType == 2)
+        {
+            pack.Shuffle(ShuffleType.Riffle);
+        }
+        else if (shuffleType == 3)
+        {
+            pack.Shuffle(ShuffleType.NoShuffle);
+        }
+
+        Console.WriteLine("Enter the number of cards to deal:");
+        int numCards = int.Parse(Console.ReadLine());
+        List<Card> dealtCards = pack.DealCards(numCards);
+        if (dealtCards.Count == 0)
+        {
+            Console.WriteLine("No cards left in the pack.");
+        }
+        else
+        {
+            Console.WriteLine("Dealt cards:");
+            foreach (Card card in dealtCards)
+            {
+                Console.WriteLine(card.Name);
+            }
+        }
+    }
+}
