@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-//Setting up shuffle types
 public enum ShuffleType
 {
     FisherYates,
@@ -39,8 +38,7 @@ public class Pack
         }
         currentCardIndex = 0;
     }
-    
-      //Setting up shuffle type
+
     public bool Shuffle(ShuffleType type)
     {
         switch (type)
@@ -55,7 +53,7 @@ public class Pack
                 }
                 return true;
             case ShuffleType.Riffle:
-                // Riffle shuffle type 
+                // Implement riffle shuffle algorithm here
                 return true;
             case ShuffleType.NoShuffle:
                 return true;
@@ -101,10 +99,8 @@ public class Program
 {
     public static void Main()
     {
-        //setting up write.line for the start
-     
         Pack pack = new Pack();
-        Console.WriteLine("Enter shuffle type: 1 for Fisher-Yates Shuffle, 2 for Riffle Shuffle, 3 for No Shuffle");
+        Console.WriteLine("1 for Fisher-Yates Shuffle, \n2 for Riffle Shuffle \n3 for No Shuffle \n Enter shuffle type: ");
         int shuffleType = int.Parse(Console.ReadLine());
         if (shuffleType == 1)
         {
@@ -119,12 +115,12 @@ public class Program
             pack.Shuffle(ShuffleType.NoShuffle);
         }
 
-        Console.WriteLine("Enter how many cards do u want to deal:");
+        Console.WriteLine("Enter the number of cards to deal:");
         int numCards = int.Parse(Console.ReadLine());
         List<Card> dealtCards = pack.DealCards(numCards);
         if (dealtCards.Count == 0)
         {
-            Console.WriteLine("There's no cards to deal");
+            Console.WriteLine("No cards left in the pack.");
         }
         else
         {
