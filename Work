@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-
+//Setting up shuffle types
 public enum ShuffleType
 {
     FisherYates,
@@ -119,12 +119,12 @@ public class Program
             pack.Shuffle(ShuffleType.NoShuffle);
         }
 
-        Console.WriteLine("Enter the number of cards to deal:");
+        Console.WriteLine("Enter how many cards do u want to deal:");
         int numCards = int.Parse(Console.ReadLine());
         List<Card> dealtCards = pack.DealCards(numCards);
         if (dealtCards.Count == 0)
         {
-            Console.WriteLine("No cards left in the pack.");
+            Console.WriteLine("There's no cards to deal");
         }
         else
         {
